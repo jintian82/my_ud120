@@ -13,32 +13,38 @@
 import sys
 from time import time
 import pickle
+import os
 
-path = "C:/Users/user/Documents/GitHub/ud120-projects/naive_bayes"
+path = "C:\\Users\\user\\Documents\\GitHub\\my_ud120\\my_ud120\\naive_bayes"
 os.chdir(path)
 sys.path.append("../tools")
 
 #########################################################
+### word_data to unix ###
+
+original = "../tools/word_data.pkl"
+destination = "../tools/word_data_unix.pkl"
+
+content = ''
+outsize = 0
+with open(original, 'rb') as infile:
+    content = infile.read()
+with open(destination, 'wb') as output:
+    for line in content.splitlines():
+        outsize += len(line) + 1
+        output.write(line + str.encode('\n'))
+
+print("Done. Saved %s bytes." % (len(content)-outsize))
+
 ### preprocess ###
 
-words_file = "../tools/word_data.pkl"
-
-words_file_handler = open(words_file, "r")
-word_data = pickle.load(words_file_handler)
-words_file_handler.close()
-
-
-
-
-
-
-
-pkl_file = open('C:/Users/user/Documents/GitHub/ud120-projects/tools/email_authors.pkl', 'rb')
-data1 = pickle.load(pkl_file)
+pkl_file = open('../tools/email_authors.pkl', 'rb')
+authors = pickle.load(pkl_file)
 pkl_file.close()
 
-
-
+pkl_file = open('../tools/word_data_unix.pkl', 'rb')
+word_data = pickle.load(pkl_file)
+pkl_file.close()
 
 
 
